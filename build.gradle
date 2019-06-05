@@ -1,0 +1,53 @@
+plugins {
+    id 'groovy'
+    id 'java'
+    id 'idea'
+    id "net.foragerr.jmeter" version "1.1.0-4.0"
+}
+
+
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    // Logging
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+    compile group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+}
+
+
+
+//**
+//Jmeter plugin configurations
+//**
+jmeter {
+    testFileDir = file("src/test/java/com/example/jmeter")
+    jmTestFiles = [
+            //file("src/test/java/com/example/jmeter/user_service_plan.jmx"),
+            file("src/test/java/com/example/scenarios/JsonServerTestPlan.jmx")
+    ]
+    excludes = ["test_user.jmx", 'TestUsers.jmx']
+
+    jmSystemPropertiesFiles= [file("src/test/resources/jmeter.properties")]
+    jmUserProperties = [file("src/test/resources/user.properties")]
+    enableReports = true
+    enableExtendedReports = false
+    //csvLogFile = false
+    //resultsLog = new File(project.buildDir, "jmeter-report/loadtest-results.xml")
+
+}
+
+// Workaround to be able to run jmReport task
+//afterEvaluate {
+//    def jMeterExt = project.extensions.findByName("jmeter")
+//    jMeterExt.metaClass.enableReports = true
+//    jMeterExt.metaClass.enableExtendedReports = false
+//    jMeterExt.metaClass.reportTitle = null
+//    jMeterExt.metaClass.reportPostfix = ""
+//    jMeterExt.metaClass.reportXslt = "$project.projectDir/build/jmeter-report/loadtest-results.xml"
+//}
