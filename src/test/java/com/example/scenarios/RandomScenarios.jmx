@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.1.1 r1855137">
   <hashTree>
-    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="SequenceScenarios" enabled="true">
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Random Scenarios" enabled="true">
       <stringProp name="TestPlan.comments"></stringProp>
       <boolProp name="TestPlan.functional_mode">false</boolProp>
       <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
@@ -243,6 +243,7 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
  */
 
 String path2 = vars.get(&quot;baseUri&quot;) + &quot;/posts/&quot; + props.get(&quot;post_id&quot;);
+
 HttpDelete request2 = new HttpDelete(path2);
 request2.addHeader(&quot;content-type&quot;, &quot;application/json&quot;);
 HttpResponse response2 = httpClient.execute(request2);
@@ -276,10 +277,10 @@ return &quot;Deleted user: &quot; + props.get(&quot;uuid&quot;) + &quot;\n&quot;
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">1</stringProp>
+          <intProp name="LoopController.loops">-1</intProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">1</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.num_threads">50</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">20</stringProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
         <stringProp name="ThreadGroup.duration">60</stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
@@ -517,7 +518,7 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
 </stringProp>
         </BeanShellPostProcessor>
         <hashTree/>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Simple Controller" enabled="false">
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Simple Controller" enabled="true">
           <stringProp name="TestPlan.comments">Executes all controllers in strict order</stringProp>
         </GenericController>
         <hashTree>
@@ -812,7 +813,7 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
             </hashTree>
           </hashTree>
         </hashTree>
-        <RandomOrderController guiclass="RandomOrderControllerGui" testclass="RandomOrderController" testname="Random Order Controller" enabled="true">
+        <RandomOrderController guiclass="RandomOrderControllerGui" testclass="RandomOrderController" testname="Random Order Controller" enabled="false">
           <stringProp name="TestPlan.comments">Executes all controllers in strict order</stringProp>
         </RandomOrderController>
         <hashTree>
@@ -1114,7 +1115,7 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <intProp name="LoopController.loops">-1</intProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">1000</stringProp>
+        <stringProp name="ThreadGroup.num_threads">500</stringProp>
         <stringProp name="ThreadGroup.ramp_time">30</stringProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
         <stringProp name="ThreadGroup.duration">60</stringProp>
