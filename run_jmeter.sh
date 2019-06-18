@@ -25,4 +25,9 @@ echo "==================Running============================"
 #-r Run the test in the servers specified by the JMeter property "remote_hosts"
 #-R [list of remote servers] Run the test in the specified remote servers
 
-sh $jmeterPath -n -t $jmxFilePath -l $csvResultFilePath -j $jmeterLogFile
+
+# RUN JMETER WITHOUT REPORT
+#sh $jmeterPath -n -t $jmxFilePath -l $csvResultFilePath -j $jmeterLogFile
+
+# RUN JMETER WITH HTML REPORT (supported in jmeter 5.0)
+sh $jmeterPath -n -t $jmxFilePath -l $csvResultFilePath -e -o $PWD/jmeter_report
