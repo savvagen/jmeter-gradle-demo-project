@@ -14,11 +14,6 @@
     <hashTree>
       <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
         <collectionProp name="Arguments.arguments">
-          <elementProp name="testDuration" elementType="Argument">
-            <stringProp name="Argument.name">testDuration</stringProp>
-            <stringProp name="Argument.value">30</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
           <elementProp name="postsId" elementType="Argument">
             <stringProp name="Argument.name">postsId</stringProp>
             <stringProp name="Argument.value">${__Random(1,100)}</stringProp>
@@ -36,7 +31,20 @@
           </elementProp>
           <elementProp name="minWait" elementType="Argument">
             <stringProp name="Argument.name">minWait</stringProp>
-            <stringProp name="Argument.value">1000</stringProp>
+            <stringProp name="Argument.value">500</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">Minimal time between samples execution (put to timer)</stringProp>
+          </elementProp>
+          <elementProp name="sampleTimout" elementType="Argument">
+            <stringProp name="Argument.name">sampleTimout</stringProp>
+            <stringProp name="Argument.value">15000</stringProp>
+            <stringProp name="Argument.desc">Timeout for request to be rejected and socket to be closed.</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="testDuration" elementType="Argument">
+            <stringProp name="Argument.name">testDuration</stringProp>
+            <stringProp name="Argument.value">10000</stringProp>
+            <stringProp name="Argument.desc">Assertion for http sampler duration (response) time</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -299,7 +307,7 @@ return &quot;Deleted user: &quot; + props.get(&quot;uuid&quot;) + &quot;\n&quot;
           <intProp name="LoopController.loops">-1</intProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">100</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">30</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">20</stringProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
         <stringProp name="ThreadGroup.duration">60</stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
@@ -552,6 +560,14 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </HTTPSamplerProxy>
             <hashTree>
+              <SampleTimeout guiclass="SampleTimeoutGui" testclass="SampleTimeout" testname="Sample Timeout" enabled="false">
+                <stringProp name="InterruptTimer.timeout">${sampleTimout}</stringProp>
+              </SampleTimeout>
+              <hashTree/>
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+                <stringProp name="ConstantTimer.delay">${minWait}</stringProp>
+              </ConstantTimer>
+              <hashTree/>
               <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="assert status code" enabled="true">
                 <collectionProp name="Asserion.test_strings">
                   <stringProp name="49586">200</stringProp>
@@ -573,12 +589,8 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
               </ResponseAssertion>
               <hashTree/>
               <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Duration Assertion" enabled="true">
-                <stringProp name="DurationAssertion.duration">5000</stringProp>
+                <stringProp name="DurationAssertion.duration">${testDuration}</stringProp>
               </DurationAssertion>
-              <hashTree/>
-              <SampleTimeout guiclass="SampleTimeoutGui" testclass="SampleTimeout" testname="Sample Timeout" enabled="true">
-                <stringProp name="InterruptTimer.timeout">${minWait}</stringProp>
-              </SampleTimeout>
               <hashTree/>
             </hashTree>
           </hashTree>
@@ -606,6 +618,18 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </HTTPSamplerProxy>
             <hashTree>
+              <SampleTimeout guiclass="SampleTimeoutGui" testclass="SampleTimeout" testname="Sample Timeout" enabled="false">
+                <stringProp name="InterruptTimer.timeout">${sampleTimout}</stringProp>
+              </SampleTimeout>
+              <hashTree/>
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+                <stringProp name="ConstantTimer.delay">${minWait}</stringProp>
+              </ConstantTimer>
+              <hashTree/>
+              <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Duration Assertion" enabled="true">
+                <stringProp name="DurationAssertion.duration">${testDuration}</stringProp>
+              </DurationAssertion>
+              <hashTree/>
               <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
                 <stringProp name="filename">/Users/shenchevskyi/IdeaProjects/jmeter-poc/src/test/java/com/example/test_data/requests.csv</stringProp>
                 <stringProp name="fileEncoding">UTF-8</stringProp>
@@ -637,14 +661,6 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
                 <boolProp name="Assertion.assume_success">false</boolProp>
                 <intProp name="Assertion.test_type">8</intProp>
               </ResponseAssertion>
-              <hashTree/>
-              <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Duration Assertion" enabled="true">
-                <stringProp name="DurationAssertion.duration">5000</stringProp>
-              </DurationAssertion>
-              <hashTree/>
-              <SampleTimeout guiclass="SampleTimeoutGui" testclass="SampleTimeout" testname="Sample Timeout" enabled="true">
-                <stringProp name="InterruptTimer.timeout">${minWait}</stringProp>
-              </SampleTimeout>
               <hashTree/>
             </hashTree>
           </hashTree>
@@ -679,6 +695,18 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </HTTPSamplerProxy>
             <hashTree>
+              <SampleTimeout guiclass="SampleTimeoutGui" testclass="SampleTimeout" testname="Sample Timeout" enabled="false">
+                <stringProp name="InterruptTimer.timeout">${sampleTimout}</stringProp>
+              </SampleTimeout>
+              <hashTree/>
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+                <stringProp name="ConstantTimer.delay">${minWait}</stringProp>
+              </ConstantTimer>
+              <hashTree/>
+              <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Duration Assertion" enabled="true">
+                <stringProp name="DurationAssertion.duration">${testDuration}</stringProp>
+              </DurationAssertion>
+              <hashTree/>
               <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="assert status code" enabled="true">
                 <collectionProp name="Asserion.test_strings">
                   <stringProp name="49586">200</stringProp>
@@ -697,14 +725,6 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
                 <boolProp name="INVERT">false</boolProp>
                 <boolProp name="ISREGEX">true</boolProp>
               </JSONPathAssertion>
-              <hashTree/>
-              <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Duration Assertion" enabled="true">
-                <stringProp name="DurationAssertion.duration">5000</stringProp>
-              </DurationAssertion>
-              <hashTree/>
-              <SampleTimeout guiclass="SampleTimeoutGui" testclass="SampleTimeout" testname="Sample Timeout" enabled="true">
-                <stringProp name="InterruptTimer.timeout">${minWait}</stringProp>
-              </SampleTimeout>
               <hashTree/>
             </hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="patch_post" enabled="true">
@@ -733,6 +753,18 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </HTTPSamplerProxy>
             <hashTree>
+              <SampleTimeout guiclass="SampleTimeoutGui" testclass="SampleTimeout" testname="Sample Timeout" enabled="false">
+                <stringProp name="InterruptTimer.timeout">${sampleTimout}</stringProp>
+              </SampleTimeout>
+              <hashTree/>
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+                <stringProp name="ConstantTimer.delay">${minWait}</stringProp>
+              </ConstantTimer>
+              <hashTree/>
+              <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Duration Assertion" enabled="true">
+                <stringProp name="DurationAssertion.duration">${testDuration}</stringProp>
+              </DurationAssertion>
+              <hashTree/>
               <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="assert status code" enabled="true">
                 <collectionProp name="Asserion.test_strings">
                   <stringProp name="49586">200</stringProp>
@@ -751,14 +783,6 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
                 <boolProp name="INVERT">false</boolProp>
                 <boolProp name="ISREGEX">true</boolProp>
               </JSONPathAssertion>
-              <hashTree/>
-              <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Duration Assertion" enabled="true">
-                <stringProp name="DurationAssertion.duration">5000</stringProp>
-              </DurationAssertion>
-              <hashTree/>
-              <SampleTimeout guiclass="SampleTimeoutGui" testclass="SampleTimeout" testname="Sample Timeout" enabled="true">
-                <stringProp name="InterruptTimer.timeout">${minWait}</stringProp>
-              </SampleTimeout>
               <hashTree/>
             </hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="create_post" enabled="true">
@@ -787,6 +811,18 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </HTTPSamplerProxy>
             <hashTree>
+              <SampleTimeout guiclass="SampleTimeoutGui" testclass="SampleTimeout" testname="Sample Timeout" enabled="false">
+                <stringProp name="InterruptTimer.timeout">${sampleTimout}</stringProp>
+              </SampleTimeout>
+              <hashTree/>
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+                <stringProp name="ConstantTimer.delay">${minWait}</stringProp>
+              </ConstantTimer>
+              <hashTree/>
+              <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Duration Assertion" enabled="true">
+                <stringProp name="DurationAssertion.duration">${testDuration}</stringProp>
+              </DurationAssertion>
+              <hashTree/>
               <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="assert status code" enabled="true">
                 <collectionProp name="Asserion.test_strings">
                   <stringProp name="49587">201</stringProp>
@@ -806,14 +842,6 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
                 <boolProp name="Assertion.assume_success">false</boolProp>
                 <intProp name="Assertion.test_type">2</intProp>
               </ResponseAssertion>
-              <hashTree/>
-              <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Duration Assertion" enabled="true">
-                <stringProp name="DurationAssertion.duration">5000</stringProp>
-              </DurationAssertion>
-              <hashTree/>
-              <SampleTimeout guiclass="SampleTimeoutGui" testclass="SampleTimeout" testname="Sample Timeout" enabled="true">
-                <stringProp name="InterruptTimer.timeout">${minWait}</stringProp>
-              </SampleTimeout>
               <hashTree/>
             </hashTree>
           </hashTree>
@@ -847,6 +875,14 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </HTTPSamplerProxy>
             <hashTree>
+              <SampleTimeout guiclass="SampleTimeoutGui" testclass="SampleTimeout" testname="Sample Timeout" enabled="false">
+                <stringProp name="InterruptTimer.timeout">${sampleTimout}</stringProp>
+              </SampleTimeout>
+              <hashTree/>
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+                <stringProp name="ConstantTimer.delay">${minWait}</stringProp>
+              </ConstantTimer>
+              <hashTree/>
               <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="assert status code" enabled="true">
                 <collectionProp name="Asserion.test_strings">
                   <stringProp name="49586">200</stringProp>
@@ -868,12 +904,8 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
               </ResponseAssertion>
               <hashTree/>
               <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Duration Assertion" enabled="true">
-                <stringProp name="DurationAssertion.duration">5000</stringProp>
+                <stringProp name="DurationAssertion.duration">${testDuration}</stringProp>
               </DurationAssertion>
-              <hashTree/>
-              <SampleTimeout guiclass="SampleTimeoutGui" testclass="SampleTimeout" testname="Sample Timeout" enabled="true">
-                <stringProp name="InterruptTimer.timeout">${minWait}</stringProp>
-              </SampleTimeout>
               <hashTree/>
             </hashTree>
           </hashTree>
@@ -901,6 +933,18 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </HTTPSamplerProxy>
             <hashTree>
+              <SampleTimeout guiclass="SampleTimeoutGui" testclass="SampleTimeout" testname="Sample Timeout" enabled="false">
+                <stringProp name="InterruptTimer.timeout">${sampleTimout}</stringProp>
+              </SampleTimeout>
+              <hashTree/>
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+                <stringProp name="ConstantTimer.delay">${minWait}</stringProp>
+              </ConstantTimer>
+              <hashTree/>
+              <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Duration Assertion" enabled="true">
+                <stringProp name="DurationAssertion.duration">${testDuration}</stringProp>
+              </DurationAssertion>
+              <hashTree/>
               <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
                 <stringProp name="filename">/Users/shenchevskyi/IdeaProjects/jmeter-poc/src/test/java/com/example/test_data/requests.csv</stringProp>
                 <stringProp name="fileEncoding">UTF-8</stringProp>
@@ -932,14 +976,6 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
                 <boolProp name="Assertion.assume_success">false</boolProp>
                 <intProp name="Assertion.test_type">8</intProp>
               </ResponseAssertion>
-              <hashTree/>
-              <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Duration Assertion" enabled="true">
-                <stringProp name="DurationAssertion.duration">5000</stringProp>
-              </DurationAssertion>
-              <hashTree/>
-              <SampleTimeout guiclass="SampleTimeoutGui" testclass="SampleTimeout" testname="Sample Timeout" enabled="true">
-                <stringProp name="InterruptTimer.timeout">${minWait}</stringProp>
-              </SampleTimeout>
               <hashTree/>
             </hashTree>
           </hashTree>
@@ -974,6 +1010,18 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </HTTPSamplerProxy>
             <hashTree>
+              <SampleTimeout guiclass="SampleTimeoutGui" testclass="SampleTimeout" testname="Sample Timeout" enabled="false">
+                <stringProp name="InterruptTimer.timeout">${sampleTimout}</stringProp>
+              </SampleTimeout>
+              <hashTree/>
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+                <stringProp name="ConstantTimer.delay">${minWait}</stringProp>
+              </ConstantTimer>
+              <hashTree/>
+              <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Duration Assertion" enabled="true">
+                <stringProp name="DurationAssertion.duration">${testDuration}</stringProp>
+              </DurationAssertion>
+              <hashTree/>
               <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="assert status code" enabled="true">
                 <collectionProp name="Asserion.test_strings">
                   <stringProp name="49586">200</stringProp>
@@ -992,14 +1040,6 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
                 <boolProp name="INVERT">false</boolProp>
                 <boolProp name="ISREGEX">true</boolProp>
               </JSONPathAssertion>
-              <hashTree/>
-              <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Duration Assertion" enabled="true">
-                <stringProp name="DurationAssertion.duration">5000</stringProp>
-              </DurationAssertion>
-              <hashTree/>
-              <SampleTimeout guiclass="SampleTimeoutGui" testclass="SampleTimeout" testname="Sample Timeout" enabled="true">
-                <stringProp name="InterruptTimer.timeout">${minWait}</stringProp>
-              </SampleTimeout>
               <hashTree/>
             </hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="patch_post" enabled="true">
@@ -1028,6 +1068,18 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </HTTPSamplerProxy>
             <hashTree>
+              <SampleTimeout guiclass="SampleTimeoutGui" testclass="SampleTimeout" testname="Sample Timeout" enabled="false">
+                <stringProp name="InterruptTimer.timeout">${sampleTimout}</stringProp>
+              </SampleTimeout>
+              <hashTree/>
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+                <stringProp name="ConstantTimer.delay">${minWait}</stringProp>
+              </ConstantTimer>
+              <hashTree/>
+              <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Duration Assertion" enabled="true">
+                <stringProp name="DurationAssertion.duration">${testDuration}</stringProp>
+              </DurationAssertion>
+              <hashTree/>
               <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="assert status code" enabled="true">
                 <collectionProp name="Asserion.test_strings">
                   <stringProp name="49586">200</stringProp>
@@ -1046,14 +1098,6 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
                 <boolProp name="INVERT">false</boolProp>
                 <boolProp name="ISREGEX">true</boolProp>
               </JSONPathAssertion>
-              <hashTree/>
-              <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Duration Assertion" enabled="true">
-                <stringProp name="DurationAssertion.duration">5000</stringProp>
-              </DurationAssertion>
-              <hashTree/>
-              <SampleTimeout guiclass="SampleTimeoutGui" testclass="SampleTimeout" testname="Sample Timeout" enabled="true">
-                <stringProp name="InterruptTimer.timeout">${minWait}</stringProp>
-              </SampleTimeout>
               <hashTree/>
             </hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="create_post" enabled="true">
@@ -1082,6 +1126,18 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </HTTPSamplerProxy>
             <hashTree>
+              <SampleTimeout guiclass="SampleTimeoutGui" testclass="SampleTimeout" testname="Sample Timeout" enabled="false">
+                <stringProp name="InterruptTimer.timeout">${sampleTimout}</stringProp>
+              </SampleTimeout>
+              <hashTree/>
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+                <stringProp name="ConstantTimer.delay">${minWait}</stringProp>
+              </ConstantTimer>
+              <hashTree/>
+              <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Duration Assertion" enabled="true">
+                <stringProp name="DurationAssertion.duration">${testDuration}</stringProp>
+              </DurationAssertion>
+              <hashTree/>
               <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="assert status code" enabled="true">
                 <collectionProp name="Asserion.test_strings">
                   <stringProp name="49587">201</stringProp>
@@ -1101,14 +1157,6 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
                 <boolProp name="Assertion.assume_success">false</boolProp>
                 <intProp name="Assertion.test_type">2</intProp>
               </ResponseAssertion>
-              <hashTree/>
-              <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Duration Assertion" enabled="true">
-                <stringProp name="DurationAssertion.duration">5000</stringProp>
-              </DurationAssertion>
-              <hashTree/>
-              <SampleTimeout guiclass="SampleTimeoutGui" testclass="SampleTimeout" testname="Sample Timeout" enabled="true">
-                <stringProp name="InterruptTimer.timeout">${minWait}</stringProp>
-              </SampleTimeout>
               <hashTree/>
             </hashTree>
           </hashTree>
