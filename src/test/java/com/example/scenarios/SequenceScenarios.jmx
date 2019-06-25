@@ -130,7 +130,7 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
 	
 	ResponseCode = response.getStatusLine();
 	ResponseMessage = &quot;Created&quot;;
-    	
+    	IsSuccess = true;
     	String uuid = String.valueOf(user.get(&quot;id&quot;));
 	log.info(uuid);
 	log.info(&quot;Registered user: \n id: &quot; + uuid + &quot;\n&quot; + jsonBody);
@@ -141,7 +141,6 @@ if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().
 	ResponseCode = response.getStatusLine();
 	ResponseMessage = &quot;Failed&quot;;
 	IsSuccess = false;
-	
 	log.info(&quot;Request Failed!!!. \n Status: &quot; + response.getStatusLine().getStatusCode().toString());
 	log.info(response.getAllHeaders().toString());
 }
@@ -172,7 +171,7 @@ JsonObject post = JsonObject.readFrom(postBody);
 if (response2.getStatusLine().getStatusCode() == 200 || response2.getStatusLine().getStatusCode() == 201) {
 	ResponseCode = response.getStatusLine();
 	ResponseMessage = &quot;Created&quot;;
-    	
+    	IsSuccess = true;
     	String postId = String.valueOf(post.get(&quot;id&quot;));
 	log.info(uuid);
 	log.info(&quot;Registered post: \n id: &quot; + postId + &quot;\n&quot; + postBody);
@@ -183,7 +182,6 @@ if (response2.getStatusLine().getStatusCode() == 200 || response2.getStatusLine(
 	ResponseCode = response.getStatusLine();
 	ResponseMessage = &quot;Failed&quot;;
 	IsSuccess = false;
-	
 	log.info(&quot;Request Failed!!!. \n Status: &quot; + response2.getStatusLine().getStatusCode().toString());
 	log.info(response2.getAllHeaders().toString());
 	
