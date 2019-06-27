@@ -1,0 +1,30 @@
+modules:
+  jmeter:
+    gui: false
+    path: ~/.bzt/jmeter-taurus/bin/jmeter
+    download-link: https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-{version}.zip
+    version: 5.1  # minimal supported version of JMeter is 2.9 (recommended 5.1.1)
+    force-ctg: true   # true by default
+    detect-plugins: true
+    plugins:
+      - jpgc-json=2.2
+      - jmeter-ftp
+      - jpgc-casutg
+    properties:
+      default_hostname: localhost
+      default_protocol: http
+      default_port: 3000
+      log_level.jmeter: WARN
+      log_level.jmeter.threads: DEBUG
+#  system-properties:
+#    sun.net.http.allowRestrictedHeaders: "true"
+execution:
+  - scenario: load-tests
+#    concurency: 200
+#    ramp-up: 40s
+#    steps: 4
+#    hold-for: 2m30s
+
+scenarios:
+  load-tests:
+    script: ../src/test/java/com/example/scenarios/ConstantRpsScenarioWithProps.jmx
