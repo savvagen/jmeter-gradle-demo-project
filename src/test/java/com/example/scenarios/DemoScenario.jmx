@@ -37,13 +37,13 @@
           </elementProp>
           <elementProp name="sampleTimout" elementType="Argument">
             <stringProp name="Argument.name">sampleTimout</stringProp>
-            <stringProp name="Argument.value">15000</stringProp>
+            <stringProp name="Argument.value">10000</stringProp>
             <stringProp name="Argument.desc">Timeout for request to be rejected and socket to be closed.</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="testDuration" elementType="Argument">
             <stringProp name="Argument.name">testDuration</stringProp>
-            <stringProp name="Argument.value">10000</stringProp>
+            <stringProp name="Argument.value">5000</stringProp>
             <stringProp name="Argument.desc">Assertion for http sampler duration (response) time</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
@@ -303,11 +303,11 @@ return &quot;Deleted user: &quot; + props.get(&quot;uuid&quot;) + &quot;\n&quot;
       <com.blazemeter.jmeter.threads.concurrency.ConcurrencyThreadGroup guiclass="com.blazemeter.jmeter.threads.concurrency.ConcurrencyThreadGroupGui" testclass="com.blazemeter.jmeter.threads.concurrency.ConcurrencyThreadGroup" testname="Concurrency Thread Group Load Tests" enabled="true">
         <elementProp name="ThreadGroup.main_controller" elementType="com.blazemeter.jmeter.control.VirtualUserController"/>
         <stringProp name="TestPlan.comments">See Blazemeter Blog: https://www.blazemeter.com/blog/using-jmeters-throughput-shaping-timer-plugin/</stringProp>
-        <stringProp name="ThreadGroup.on_sample_error">stopthread</stringProp>
-        <stringProp name="TargetLevel">200</stringProp>
-        <stringProp name="RampUp">20</stringProp>
-        <stringProp name="Steps">3</stringProp>
-        <stringProp name="Hold">180</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">stoptestnow</stringProp>
+        <stringProp name="TargetLevel">500</stringProp>
+        <stringProp name="RampUp">30</stringProp>
+        <stringProp name="Steps">0</stringProp>
+        <stringProp name="Hold">90</stringProp>
         <stringProp name="LogFilename"></stringProp>
         <stringProp name="Iterations"></stringProp>
         <stringProp name="Unit">S</stringProp>
@@ -315,20 +315,15 @@ return &quot;Deleted user: &quot; + props.get(&quot;uuid&quot;) + &quot;\n&quot;
       <hashTree>
         <kg.apc.jmeter.timers.VariableThroughputTimer guiclass="kg.apc.jmeter.timers.VariableThroughputTimerGui" testclass="kg.apc.jmeter.timers.VariableThroughputTimer" testname="jp@gc - Throughput Shaping Timer" enabled="true">
           <collectionProp name="load_profile">
-            <collectionProp name="-241987871">
+            <collectionProp name="66538368">
               <stringProp name="1567">10</stringProp>
-              <stringProp name="1567">10</stringProp>
+              <stringProp name="51508">400</stringProp>
               <stringProp name="1629">30</stringProp>
             </collectionProp>
-            <collectionProp name="-203399071">
-              <stringProp name="1691">50</stringProp>
-              <stringProp name="1691">50</stringProp>
-              <stringProp name="1629">30</stringProp>
-            </collectionProp>
-            <collectionProp name="-1182532134">
-              <stringProp name="48625">100</stringProp>
-              <stringProp name="48625">100</stringProp>
-              <stringProp name="48687">120</stringProp>
+            <collectionProp name="1040952576">
+              <stringProp name="51508">400</stringProp>
+              <stringProp name="51508">400</stringProp>
+              <stringProp name="1722">60</stringProp>
             </collectionProp>
           </collectionProp>
         </kg.apc.jmeter.timers.VariableThroughputTimer>
