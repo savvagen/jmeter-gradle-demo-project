@@ -18,8 +18,10 @@ modules:
 #    sun.net.http.allowRestrictedHeaders: "true"
 
 execution:
-  concurrency: 10
-  iterations: 1000
+  concurency: 200
+  ramp-up: 40s
+  steps: 4
+  hold-for: 2m30s
   - scenario: simple
 
 scenarios:
