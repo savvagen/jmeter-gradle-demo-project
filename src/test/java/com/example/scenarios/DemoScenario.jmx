@@ -315,12 +315,12 @@ return &quot;Deleted user: &quot; + props.get(&quot;uuid&quot;) + &quot;\n&quot;
       <hashTree>
         <kg.apc.jmeter.timers.VariableThroughputTimer guiclass="kg.apc.jmeter.timers.VariableThroughputTimerGui" testclass="kg.apc.jmeter.timers.VariableThroughputTimer" testname="jp@gc - Throughput Shaping Timer" enabled="true">
           <collectionProp name="load_profile">
-            <collectionProp name="66538368">
+            <collectionProp name="-1975908050">
               <stringProp name="1567">10</stringProp>
               <stringProp name="51508">400</stringProp>
               <stringProp name="1629">30</stringProp>
             </collectionProp>
-            <collectionProp name="1040952576">
+            <collectionProp name="-1001493842">
               <stringProp name="51508">400</stringProp>
               <stringProp name="51508">400</stringProp>
               <stringProp name="1722">60</stringProp>

@@ -16,8 +16,18 @@ modules:
       log_level.jmeter.threads: DEBUG
 #  system-properties:
 #    sun.net.http.allowRestrictedHeaders: "true"
+
 execution:
+  concurrency: 10
+  iterations: 1000
   - scenario: simple
+
 scenarios:
   simple:
     script: src/test/java/com/example/scenarios/RandomScenarios.jmx
+
+reporting:
+  - module: passfail
+    criteria:
+      - avg-rt >150ms for 10s, continue as failed
+      - fail >50% for 10s, stop as failed
