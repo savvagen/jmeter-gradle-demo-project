@@ -2,9 +2,12 @@ plugins {
     id 'groovy'
     id 'java'
     id 'idea'
-    id "net.foragerr.jmeter" version "1.1.0-4.0"
+    id "net.foragerr.jmeter" version "1.0.5-2.13"
 }
 
+ext {
+    jmeterVersion = "5.2.1"
+}
 
 
 repositories {
@@ -14,21 +17,23 @@ repositories {
 
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    compile group: 'org.codehaus.groovy.modules.http-builder', name: 'http-builder', version: '0.7'
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'io.rest-assured', name: 'rest-assured', version: '3.0.0'
+    // Load and Test Runner
+    compile([
+            "org.apache.jmeter:ApacheJMeter:$jmeterVersion",
+            "org.apache.jmeter:ApacheJMeter_core:$jmeterVersion",
+            "org.apache.jmeter:ApacheJMeter_components:$jmeterVersion",
+            "org.apache.jmeter:ApacheJMeter_http:$jmeterVersion",
+            "org.apache.jmeter:ApacheJMeter_java:$jmeterVersion",
+            "org.apache.jmeter:jorphan:$jmeterVersion",
+            "org.apache.jmeter:ApacheJMeter_report:2.12"
+
+    ])
+    // Logging
     compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
     compile group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
-    compile group: 'io.rest-assured', name: 'rest-assured', version: '3.0.0'
-    compile group: 'org.codehaus.groovy.modules.http-builder', name: 'http-builder', version: '0.7'
-    // Jmeter Libs
-    compile group: 'org.apache.jmeter', name: 'ApacheJMeter', version: '5.1.1'
-    compile group: 'org.apache.jmeter', name: 'ApacheJMeter_core', version: '5.1.1'
-    compile group: 'org.apache.jmeter', name: 'ApacheJMeter_components', version: '5.1.1'
-    compile group: 'org.apache.jmeter', name: 'ApacheJMeter_http', version: '5.1.1'
-    compile group: 'org.apache.jmeter', name: 'jorphan', version: '5.1.1'
-    compile group: 'org.apache.jmeter', name: 'ApacheJMeter_java', version: '5.1.1'
-    // Jmeter report plugins
-    compile group: 'org.apache.jmeter', name: 'ApacheJMeter_report', version: '2.12'
-
 }
 
 
@@ -37,17 +42,17 @@ dependencies {
 //Jmeter plugin configurations
 //**
 jmeter {
-    testFileDir = file("src/test/java/com/example/jmeter")
+    testFileDir = file("src/test/java/com/example")
     jmTestFiles = [
-            //file("src/test/java/com/example/jmeter/user_service_plan.jmx"),
-            file("src/test/java/com/example/scenarios/JsonServerTestPlan.jmx")
+            file("${testFileDir}/jmx_scenarios/DemoScenario.jmx")
     ]
-    excludes = ["test_user.jmx", 'TestUsers.jmx']
+    excludes = ["ConstantRpsScenarios.jmx", 'RandomScenarios*.jmx']
 
-    jmSystemPropertiesFiles= [file("src/test/resources/jmeter.properties")]
-    jmUserProperties = [file("src/test/resources/user.properties")]
+    jmSystemPropertiesFiles = [file("src/test/resources/jmeter.properties")]
+    jmSystemProperties = [ "src/test/resources/jmeter.properties" ]
+    jmUserProperties = [ "src/test/resources/user.properties" ]
     enableReports = true
-    enableExtendedReports = false
+    enableExtendedReports = true //produce Graphical and CSV reports
     //csvLogFile = false
     //resultsLog = new File(project.buildDir, "jmeter-report/loadtest-results.xml")
 
