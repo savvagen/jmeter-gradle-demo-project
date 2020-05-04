@@ -1,6 +1,6 @@
 ## Requirements
 
-Supported Jmeter versions: 4.0 - 5.0
+Supported Jmeter versions: 5.0 - 5.2
 
 
 
